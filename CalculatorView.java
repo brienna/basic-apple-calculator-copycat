@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
+import java.awt.Color;
 
 /**
  * 
@@ -17,6 +18,7 @@ import java.awt.Insets;
  *
  */
 public class CalculatorView extends JFrame {
+	// NOTE: Not recommended to extend JFrame, recommended to use composition over inheritance
 	private JTextField display = new JTextField("0", 10);
 
 	// Number buttons
@@ -43,6 +45,20 @@ public class CalculatorView extends JFrame {
 	private JButton equalButton = new JButton("=");
 	
 	CalculatorView() {
+		// Set the look and feel to the cross-platform look and feel,
+		// otherwise mac os will have quirks like gaps between jbuttons
+		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			System.err.println("Unsupported look and feel.");
+			e.printStackTrace();
+		}
+		// Let the OS set location, prevent user from resizing window, and exit app on close
+		this.setLocationByPlatform(true);
+		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setOpacity(1); 
+
 		// Create the main panel, which by default covers the entire frame
 		// NOTE: Good practice. Never put components directly onto a JFrame.
 		JPanel gui = new JPanel();
@@ -56,20 +72,27 @@ public class CalculatorView extends JFrame {
 		// Create a GridBagConstraints object to control the layout of components
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 0, 0, 0); 
-		c.fill = GridBagConstraints.BOTH;
-		constraints.weightx = 1d;
-		constraints.weighty = 1d;
-		// Position buttons on the grid 
+		c.fill = GridBagConstraints.HORIZONTAL;
+		// Position buttons on the grid
 		c.gridx = 0;
 		c.gridy = 0;
+		c.weightx = 1; // needed or buttons will cluster at center w/ gap on sides
+		c.weighty = 0.5;
 		buttonPanel.add(clearButton, c);
-		clearButton.setFocusPainted(false);  // set on all buttons later
+		clearButton.setBackground(Color.gray);
+		clearButton.setOpaque(true);
 		c.gridx = 1;
 		buttonPanel.add(signChangeButton, c);
+		signChangeButton.setBackground(Color.gray);
+		signChangeButton.setOpaque(true);
 		c.gridx = 2; 
 		buttonPanel.add(percentButton, c);
+		percentButton.setBackground(Color.gray);
+		percentButton.setOpaque(true);
 		c.gridx = 3;
 		buttonPanel.add(divisionButton, c);
+		divisionButton.setBackground(Color.ORANGE);
+		divisionButton.setOpaque(true);
 		c.gridx = 0;
 		c.gridy = 1;
 		buttonPanel.add(sevenButton, c);
@@ -79,6 +102,8 @@ public class CalculatorView extends JFrame {
 		buttonPanel.add(nineButton, c);
 		c.gridx = 3;
 		buttonPanel.add(multiplicationButton, c);
+		multiplicationButton.setBackground(Color.ORANGE);
+		multiplicationButton.setOpaque(true);
 		c.gridx = 0;
 		c.gridy = 2;
 		buttonPanel.add(fourButton, c);
@@ -88,6 +113,8 @@ public class CalculatorView extends JFrame {
 		buttonPanel.add(sixButton, c);
 		c.gridx = 3;
 		buttonPanel.add(subtractionButton, c);
+		subtractionButton.setBackground(Color.ORANGE);
+		subtractionButton.setOpaque(true);
 		c.gridx = 0;
 		c.gridy = 3;
 		buttonPanel.add(oneButton, c);
@@ -97,6 +124,8 @@ public class CalculatorView extends JFrame {
 		buttonPanel.add(threeButton, c);
 		c.gridx = 3;
 		buttonPanel.add(additionButton, c);
+		additionButton.setBackground(Color.ORANGE);
+		additionButton.setOpaque(true);
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 2; // spans 2 cells
@@ -106,17 +135,16 @@ public class CalculatorView extends JFrame {
 		buttonPanel.add(periodButton, c);
 		c.gridx = 3;
 		buttonPanel.add(equalButton, c);
+		equalButton.setBackground(Color.ORANGE);
+		equalButton.setOpaque(true);
 
 		// Customize display field
 		display.setHorizontalAlignment(JTextField.RIGHT);
-		Font dFont = new Font("Arial", Font.BOLD, 30);
-		display.setFont(dFont);
+		display.setFont(new Font("Arial", Font.PLAIN, 40));
 		display.setBorder(new EmptyBorder(0, 0, 0, 0));
+		display.setBackground(Color.BLACK);
+		display.setForeground(Color.WHITE);
 
-		// Prevent user from resizing the window
-		this.setResizable(false);
-		// Exit application when user selects close button
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Add display and button panel to main panel, then main panel to frame
 		gui.add(display, BorderLayout.NORTH);
 		gui.add(buttonPanel, BorderLayout.CENTER);
