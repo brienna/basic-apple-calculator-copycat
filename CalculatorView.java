@@ -22,29 +22,6 @@ public class CalculatorView extends JFrame {
 	// NOTE: Not recommended to extend JFrame, recommended to use composition over inheritance
 	private JTextField display = new JTextField("0", 9);
 
-	// Number buttons
-	private JButton zeroButton = new JButton("0");
-	private JButton oneButton = new JButton("1");
-	private JButton twoButton = new JButton("2");
-	private JButton threeButton = new JButton("3");
-	private JButton fourButton = new JButton("4");
-	private JButton fiveButton = new JButton("5");
-	private JButton sixButton = new JButton("6");
-	private JButton sevenButton = new JButton("7");
-	private JButton eightButton = new JButton("8");
-	private JButton nineButton = new JButton("9");
-	private JButton periodButton = new JButton(".");
-
-	// Operation buttons
-	private JButton additionButton = new JButton("+");
-	private JButton subtractionButton = new JButton("-");
-	private JButton divisionButton = new JButton("÷");
-	private JButton multiplicationButton = new JButton("x");
-	private JButton signChangeButton = new JButton("+/-");
-	private JButton percentButton = new JButton("%");
-	private JButton clearButton = new JButton("AC");
-	private JButton equalButton = new JButton("=");
-	
 	CalculatorView() {
 		// Set the look and feel to the cross-platform look and feel,
 		// otherwise mac os will have quirks like gaps between jbuttons
@@ -71,94 +48,55 @@ public class CalculatorView extends JFrame {
 		buttonPanel.setBorder(new EmptyBorder(0, -1, 0, -1));
 		// Set button panel's layout manager to GridBagLayout
 		buttonPanel.setLayout(new GridBagLayout());
+
 		// Create a GridBagConstraints object to control the layout of components
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 0, 0, 0);
 		c.fill = GridBagConstraints.HORIZONTAL;
-
-		// Position buttons on the grid
-		c.gridx = 0;
-		c.gridy = 0;
 		c.ipady = 35;  // adjust vertical height of buttons
 		c.weightx = 1; // needed or buttons will cluster at center w/ gap on sides
-		buttonPanel.add(clearButton, c);
-		clearButton.setBackground(Color.gray);
-		clearButton.setOpaque(true);
-		clearButton.setBorder(new MatteBorder(0, 1, 0, 1, Color.BLACK));
-		c.gridx = 1;
-		buttonPanel.add(signChangeButton, c);
-		signChangeButton.setBackground(Color.gray);
-		signChangeButton.setOpaque(true);
-		signChangeButton.setBorder(new MatteBorder(0, 0, 0, 1, Color.BLACK));
-		c.gridx = 2; 
-		buttonPanel.add(percentButton, c);
-		percentButton.setBackground(Color.gray);
-		percentButton.setOpaque(true);
-		percentButton.setBorder(new MatteBorder(0, 0, 0, 1, Color.BLACK));
-		c.gridx = 3;
-		buttonPanel.add(divisionButton, c);
-		divisionButton.setBackground(Color.ORANGE);
-		divisionButton.setOpaque(true);
-		divisionButton.setBorder(new MatteBorder(0, 0, 0, 1, Color.BLACK));
-		c.gridx = 0;
-		c.gridy = 1;
-		buttonPanel.add(sevenButton, c);
-		sevenButton.setBorder(new MatteBorder(1, 1, 0, 1, Color.BLACK));
-		c.gridx = 1;
-		buttonPanel.add(eightButton, c);
-		eightButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 2;
-		buttonPanel.add(nineButton, c);
-		nineButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 3;
-		buttonPanel.add(multiplicationButton, c);
-		multiplicationButton.setBackground(Color.ORANGE);
-		multiplicationButton.setOpaque(true);
-		multiplicationButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 0;
-		c.gridy = 2;
-		buttonPanel.add(fourButton, c);
-		fourButton.setBorder(new MatteBorder(1, 1, 0, 1, Color.BLACK));
-		c.gridx = 1;
-		buttonPanel.add(fiveButton, c);
-		fiveButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 2;
-		buttonPanel.add(sixButton, c);
-		sixButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 3;
-		buttonPanel.add(subtractionButton, c);
-		subtractionButton.setBackground(Color.ORANGE);
-		subtractionButton.setOpaque(true);
-		subtractionButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 0;
-		c.gridy = 3;
-		buttonPanel.add(oneButton, c);
-		oneButton.setBorder(new MatteBorder(1, 1, 0, 1, Color.BLACK));
-		c.gridx = 1;
-		buttonPanel.add(twoButton, c);
-		twoButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 2;
-		buttonPanel.add(threeButton, c);
-		threeButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 3;
-		buttonPanel.add(additionButton, c);
-		additionButton.setBackground(Color.ORANGE);
-		additionButton.setOpaque(true);
-		additionButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 2; // spans 2 cells
-		buttonPanel.add(zeroButton, c);
-		zeroButton.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
-		c.gridx = 2;
-		c.gridwidth = 1; 
-		buttonPanel.add(periodButton, c);
-		periodButton.setBorder(new MatteBorder(1, 0, 1, 1, Color.BLACK));
-		c.gridx = 3;
-		buttonPanel.add(equalButton, c);
-		equalButton.setBackground(Color.ORANGE);
-		equalButton.setOpaque(true);
-		equalButton.setBorder(new MatteBorder(1, 0, 1, 1, Color.BLACK));
+
+		// Add buttons to button panel
+		String[][] buttonTexts = {
+			{"AC", "+/-", "%", "÷"},
+      		{"7", "8", "9", "x"},
+      		{"4", "5", "6", "-"},
+      		{"1", "2", "3", "+"},
+      		{"0", "", ".", "="}
+   		};
+
+   		for (int i = 0; i < buttonTexts.length; i++) {
+			for (int j = 0; j < buttonTexts[i].length; j++) {
+				JButton btn = new JButton(buttonTexts[i][j]);
+				// Set the zero button to span two cells & other buttons one cell
+				if (buttonTexts[i][j].equals("0")) {
+					c.gridwidth = 2;
+				} else {
+					c.gridwidth = 1;
+				}
+				// Set button position on grid and add it
+				c.gridy = i;
+				c.gridx = j;
+				buttonPanel.add(btn, c);
+				// Set background colors for top row & right column
+				if (i == 0 && j <= 2) {
+					btn.setBackground(Color.gray);
+					btn.setOpaque(true);
+				} 
+				if (j == 3) {
+					btn.setBackground(Color.ORANGE);
+					btn.setOpaque(true);
+				}
+				// Set borders
+				int left = 1;
+				if (j != 0) {
+					left = 0; 
+				} 
+				btn.setBorder(new MatteBorder(0, left, 1, 1, Color.BLACK));
+				
+
+         	}
+      	}
 
 		// Customize display field
 		display.setHorizontalAlignment(JTextField.RIGHT);
@@ -194,7 +132,8 @@ public class CalculatorView extends JFrame {
 	// NOTE: Controller, not view, handles actual actions
 	// NOTE: no modifier (private, public) means this is package-private (default)
 	void addEqualListener(ActionListener listenForEqual) {
-		equalButton.addActionListener(listenForEqual);
+		// NOTE: NEED TO FIX THIS SINCE BUTTONS ARE NO LONGER MEMBER VARIABLES
+		//equalButton.addActionListener(listenForEqual);
 	}
 	
 	// Open a popup that contains the error message passed
