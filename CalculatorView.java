@@ -57,7 +57,7 @@ public class CalculatorView extends JFrame {
 		this.setLocationByPlatform(true);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setOpacity(1); 
+		this.setUndecorated(true);  // must be undecorated for setbackground to work
 
 		// Create the main panel, which by default covers the entire frame
 		// NOTE: Good practice. Never put components directly onto a JFrame.
@@ -142,8 +142,11 @@ public class CalculatorView extends JFrame {
 		display.setHorizontalAlignment(JTextField.RIGHT);
 		display.setFont(new Font("Arial", Font.PLAIN, 40));
 		display.setBorder(new EmptyBorder(0, 0, 0, 0));
-		display.setBackground(Color.BLACK);
 		display.setForeground(Color.WHITE);
+		// Make display translucent but leave button panel opaque
+		this.setBackground(new Color(0, 0, 0, 100));
+		gui.setBackground(new Color(0,0,0,100));
+		display.setBackground(new Color(0, 0, 0, 100));
 
 		// Add display and button panel to main panel, then main panel to frame
 		gui.add(display, BorderLayout.NORTH);
