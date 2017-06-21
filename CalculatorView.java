@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
 import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
 /**
  * 
@@ -19,7 +20,7 @@ import java.awt.Color;
  */
 public class CalculatorView extends JFrame {
 	// NOTE: Not recommended to extend JFrame, recommended to use composition over inheritance
-	private JTextField display = new JTextField("0", 10);
+	private JTextField display = new JTextField("0", 9);
 
 	// Number buttons
 	private JButton zeroButton = new JButton("0");
@@ -67,82 +68,104 @@ public class CalculatorView extends JFrame {
 
 		// Create the button panel 
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBorder(new EmptyBorder(0, -1, 0, -1));
 		// Set button panel's layout manager to GridBagLayout
 		buttonPanel.setLayout(new GridBagLayout());
 		// Create a GridBagConstraints object to control the layout of components
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(0, 0, 0, 0); 
+		c.insets = new Insets(0, 0, 0, 0);
 		c.fill = GridBagConstraints.HORIZONTAL;
+
 		// Position buttons on the grid
 		c.gridx = 0;
 		c.gridy = 0;
+		c.ipady = 35;  // adjust vertical height of buttons
 		c.weightx = 1; // needed or buttons will cluster at center w/ gap on sides
-		c.weighty = 0.5;
 		buttonPanel.add(clearButton, c);
 		clearButton.setBackground(Color.gray);
 		clearButton.setOpaque(true);
+		clearButton.setBorder(new MatteBorder(0, 1, 0, 1, Color.BLACK));
 		c.gridx = 1;
 		buttonPanel.add(signChangeButton, c);
 		signChangeButton.setBackground(Color.gray);
 		signChangeButton.setOpaque(true);
+		signChangeButton.setBorder(new MatteBorder(0, 0, 0, 1, Color.BLACK));
 		c.gridx = 2; 
 		buttonPanel.add(percentButton, c);
 		percentButton.setBackground(Color.gray);
 		percentButton.setOpaque(true);
+		percentButton.setBorder(new MatteBorder(0, 0, 0, 1, Color.BLACK));
 		c.gridx = 3;
 		buttonPanel.add(divisionButton, c);
 		divisionButton.setBackground(Color.ORANGE);
 		divisionButton.setOpaque(true);
+		divisionButton.setBorder(new MatteBorder(0, 0, 0, 1, Color.BLACK));
 		c.gridx = 0;
 		c.gridy = 1;
 		buttonPanel.add(sevenButton, c);
+		sevenButton.setBorder(new MatteBorder(1, 1, 0, 1, Color.BLACK));
 		c.gridx = 1;
 		buttonPanel.add(eightButton, c);
+		eightButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 2;
 		buttonPanel.add(nineButton, c);
+		nineButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 3;
 		buttonPanel.add(multiplicationButton, c);
 		multiplicationButton.setBackground(Color.ORANGE);
 		multiplicationButton.setOpaque(true);
+		multiplicationButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 0;
 		c.gridy = 2;
 		buttonPanel.add(fourButton, c);
+		fourButton.setBorder(new MatteBorder(1, 1, 0, 1, Color.BLACK));
 		c.gridx = 1;
 		buttonPanel.add(fiveButton, c);
+		fiveButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 2;
 		buttonPanel.add(sixButton, c);
+		sixButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 3;
 		buttonPanel.add(subtractionButton, c);
 		subtractionButton.setBackground(Color.ORANGE);
 		subtractionButton.setOpaque(true);
+		subtractionButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 0;
 		c.gridy = 3;
 		buttonPanel.add(oneButton, c);
+		oneButton.setBorder(new MatteBorder(1, 1, 0, 1, Color.BLACK));
 		c.gridx = 1;
 		buttonPanel.add(twoButton, c);
+		twoButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 2;
 		buttonPanel.add(threeButton, c);
+		threeButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 3;
 		buttonPanel.add(additionButton, c);
 		additionButton.setBackground(Color.ORANGE);
 		additionButton.setOpaque(true);
+		additionButton.setBorder(new MatteBorder(1, 0, 0, 1, Color.BLACK));
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 2; // spans 2 cells
 		buttonPanel.add(zeroButton, c);
+		zeroButton.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
 		c.gridx = 2;
 		c.gridwidth = 1; 
 		buttonPanel.add(periodButton, c);
+		periodButton.setBorder(new MatteBorder(1, 0, 1, 1, Color.BLACK));
 		c.gridx = 3;
 		buttonPanel.add(equalButton, c);
 		equalButton.setBackground(Color.ORANGE);
 		equalButton.setOpaque(true);
+		equalButton.setBorder(new MatteBorder(1, 0, 1, 1, Color.BLACK));
 
 		// Customize display field
 		display.setHorizontalAlignment(JTextField.RIGHT);
 		display.setFont(new Font("Arial", Font.PLAIN, 40));
-		display.setBorder(new EmptyBorder(0, 0, 0, 0));
+		display.setBorder(new EmptyBorder(30, 0, 0, 25));
 		display.setForeground(Color.WHITE);
+
 		// Make display translucent but leave button panel opaque
 		this.setBackground(new Color(0, 0, 0, 100));
 		gui.setBackground(new Color(0,0,0,100));
