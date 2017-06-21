@@ -1,5 +1,7 @@
 package calculator;
 
+import javax.swing.*;
+
 /**
  * 
  * Runs the MVC.
@@ -7,13 +9,14 @@ package calculator;
  */
 public class MVCCalculator {
 	public static void main(String[] args) {
-		// Create view
+		// Create view 
 		CalculatorView theView = new CalculatorView();
 		// Create model
 		CalculatorModel theModel = new CalculatorModel();
 		// Create controller
 		CalculatorController theController = new CalculatorController(theView, theModel);
 		// Show the view on the screen
-		theView.setVisible(true);
+		JFrame frame = theView.getFrame();
+		frame.setVisible(true);
 	}
 }

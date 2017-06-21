@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
+import java.awt.Component;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
 
@@ -18,11 +19,23 @@ import javax.swing.border.MatteBorder;
  * Interface is the most complicated part of the MVC. 
  *
  */
-public class CalculatorView extends JFrame {
-	// NOTE: Not recommended to extend JFrame, recommended to use composition over inheritance
-	private JTextField display = new JTextField("0", 9);
+public class CalculatorView {
+	private JFrame frame;  // NOTE: Recommended to use composition over inheritance
+	private JTextField display;
+	private JPanel gui;
+	private JPanel buttonPanel;
 
 	CalculatorView() {
+		customizeFrame();
+		customizeTextDisplay();
+		createMainPanel();
+		createButtonPanel();
+		addComponentsToFrame();
+	}
+	
+	private void customizeFrame() {
+		frame = new JFrame();
+
 		// Set the look and feel to the cross-platform look and feel,
 		// otherwise mac os will have quirks like gaps between jbuttons
 		try {
@@ -31,20 +44,27 @@ public class CalculatorView extends JFrame {
 			System.err.println("Unsupported look and feel.");
 			e.printStackTrace();
 		}
-		// Let the OS set location, prevent user from resizing window, and exit app on close
-		this.setLocationByPlatform(true);
-		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setUndecorated(true);  // must be undecorated for setbackground to work
 
+		// Let the OS set location, prevent user from resizing window, and exit app on close
+		frame.setLocationByPlatform(true);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);  // must be undecorated for setbackground to work
+		frame.setBackground(new Color(0, 0, 0, 100));  // to make display translucent
+	}
+
+	private void createMainPanel() {
 		// Create the main panel, which by default covers the entire frame
 		// NOTE: Good practice. Never put components directly onto a JFrame.
-		JPanel gui = new JPanel();
+		gui = new JPanel();
 		// Set the main panel's layout manager to BorderLayout
 		gui.setLayout(new BorderLayout());
+		gui.setBackground(new Color(0,0,0,100));  // to make display translucent
+	}
 
+	private void createButtonPanel() {
 		// Create the button panel 
-		JPanel buttonPanel = new JPanel();
+		buttonPanel = new JPanel();
 		buttonPanel.setBorder(new EmptyBorder(0, -1, 0, -1));
 		// Set button panel's layout manager to GridBagLayout
 		buttonPanel.setLayout(new GridBagLayout());
@@ -93,52 +113,50 @@ public class CalculatorView extends JFrame {
 					left = 0; 
 				} 
 				btn.setBorder(new MatteBorder(0, left, 1, 1, Color.BLACK));
-				
-
          	}
-      	}
+         }
+	}
 
-		// Customize display field
+	private void customizeTextDisplay() {
+		display = new JTextField("0", 9);
 		display.setHorizontalAlignment(JTextField.RIGHT);
 		display.setFont(new Font("Arial", Font.PLAIN, 40));
 		display.setBorder(new EmptyBorder(30, 0, 0, 25));
 		display.setForeground(Color.WHITE);
-
-		// Make display translucent but leave button panel opaque
-		this.setBackground(new Color(0, 0, 0, 100));
-		gui.setBackground(new Color(0,0,0,100));
 		display.setBackground(new Color(0, 0, 0, 100));
+	}
 
-		// Add display and button panel to main panel, then main panel to frame
+	private void addComponentsToFrame() {
 		gui.add(display, BorderLayout.NORTH);
 		gui.add(buttonPanel, BorderLayout.CENTER);
-		this.add(gui);
-		this.pack();
+		frame.add(gui);
+		frame.pack();
 	}
 	
-	public int getCalcSolution() {
-		return Integer.parseInt(display.getText());
+	void addButtonListener(ActionListener al) {
+		// Add the listener to every button in the buttonPanel
+		for (Component comp : buttonPanel.getComponents()) {
+			if (comp instanceof JButton) {
+				JButton btn = (JButton)comp;  // unsure why I have to explicitly cast it
+				btn.addActionListener(al);
+			}
+		}
+		// NOTE: Might be better to have buttons as class variables? 
 	}
-	
-	// Sets solution, this is going to be called by the controller
-	public void setCalcSolution(int solution) {
-		display.setText(Integer.toString(solution));
-	}
-	
-	// Most complicated part is below
-	
-	// If the calculateButton is clicked, execute a method
-	// in the Controller named actionPerformed
-	// NOTE: Controller, not view, handles actual actions
-	// NOTE: no modifier (private, public) means this is package-private (default)
-	void addEqualListener(ActionListener listenForEqual) {
-		// NOTE: NEED TO FIX THIS SINCE BUTTONS ARE NO LONGER MEMBER VARIABLES
-		//equalButton.addActionListener(listenForEqual);
+
+	// Set text in the display
+	void setTextDisplay(String text) {
+		display.setText(text);
 	}
 	
 	// Open a popup that contains the error message passed
 	void displayErrorMessage(String errorMessage) {
-		JOptionPane.showMessageDialog(this, errorMessage);
+		JOptionPane.showMessageDialog(frame, errorMessage);
+	}
+
+	// Get frame
+	JFrame getFrame() {
+		return frame;
 	}
 }
 

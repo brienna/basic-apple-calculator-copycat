@@ -19,12 +19,14 @@ public class CalculatorController {
 		
 		// Tell the view that whenever the equal button is clicked,
 		// to execute the actionPerformed method in the EqualsListener inner class
-		theView.addEqualListener(new EqualListener());
+		theView.addButtonListener(new ButtonListener());
 	}
 	
 	// inner class
-	class EqualListener implements ActionListener {
+	class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			System.out.println(e.getActionCommand());
+
 			int firstNumber, secondNumber = 0;
 			
 			// Surround interactions with the view with 
@@ -33,7 +35,7 @@ public class CalculatorController {
 				/*firstNumber = theView.getFirstNumber();
 				secondNumber = theView.getSecondNumber();
 				theModel.addTwoNumbers(firstNumber, secondNumber);
-				theView.setCalcSolution(theModel.getCalculation());
+				theView.setDisplay(theModel.getCalculation());
 				*/
 			} catch (NumberFormatException ex) {
 				System.out.println(ex);
