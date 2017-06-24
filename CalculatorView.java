@@ -11,12 +11,13 @@ import java.awt.Insets;
 import java.awt.Component;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * 
  * Displays what user sees. Performs no calculations, but passes 
  * information entered by the user to whomever needs it. 
- * Interface is the most complicated part of the MVC. 
+ * Interface is the most complicated part of the MVC.
  *
  */
 public class CalculatorView {
@@ -65,16 +66,8 @@ public class CalculatorView {
 	private void createButtonPanel() {
 		// Create the button panel 
 		buttonPanel = new JPanel();
-		buttonPanel.setBorder(new EmptyBorder(0, -1, 0, -1));
 		// Set button panel's layout manager to GridBagLayout
-		buttonPanel.setLayout(new GridBagLayout());
-
-		// Create a GridBagConstraints object to control the layout of components
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(0, 0, 0, 0);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 35;  // adjust vertical height of buttons
-		c.weightx = 1; // needed or buttons will cluster at center w/ gap on sides
+		buttonPanel.setLayout(new MigLayout("wrap 4, fill, gap 0, ins 0"));
 
 		// Add buttons to button panel
 		String[][] buttonTexts = {
@@ -82,22 +75,21 @@ public class CalculatorView {
       		{"7", "8", "9", "x"},
       		{"4", "5", "6", "-"},
       		{"1", "2", "3", "+"},
-      		{"0", "", ".", "="}
+      		{"0", ".", "="}
    		};
 
    		for (int i = 0; i < buttonTexts.length; i++) {
 			for (int j = 0; j < buttonTexts[i].length; j++) {
-				JButton btn = new JButton(buttonTexts[i][j]);
+				// Create a string of constraints to control the layout of components
+   				// NOTE: Width will not work right now cuz of display (w 50!)
+				String constraints = "grow, h 50!";
 				// Set the zero button to span two cells & other buttons one cell
 				if (buttonTexts[i][j].equals("0")) {
-					c.gridwidth = 2;
-				} else {
-					c.gridwidth = 1;
+					constraints = "span 2, " + constraints;
 				}
-				// Set button position on grid and add it
-				c.gridy = i;
-				c.gridx = j;
-				buttonPanel.add(btn, c);
+				JButton btn = new JButton(buttonTexts[i][j]);
+				buttonPanel.add(btn, constraints);
+
 				// Set background colors for top row & right column
 				if (i == 0 && j <= 2) {
 					btn.setBackground(Color.gray);
@@ -107,6 +99,7 @@ public class CalculatorView {
 					btn.setBackground(Color.ORANGE);
 					btn.setOpaque(true);
 				}
+
 				// Set borders
 				int left = 1;
 				if (j != 0) {
