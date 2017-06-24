@@ -71,32 +71,37 @@ public class CalculatorView {
 
 		// Add buttons to button panel
 		String[][] buttonTexts = {
-			{"AC", "+/-", "%", "÷"},
+			{"C", "+/-", "%", "÷"},
       		{"7", "8", "9", "x"},
       		{"4", "5", "6", "-"},
       		{"1", "2", "3", "+"},
       		{"0", ".", "="}
    		};
 
+   		Font fBtn = new Font("Helvetica", Font.PLAIN, 18);
    		for (int i = 0; i < buttonTexts.length; i++) {
 			for (int j = 0; j < buttonTexts[i].length; j++) {
 				// Create a string of constraints to control the layout of components
-   				// NOTE: Width will not work right now cuz of display (w 50!)
-				String constraints = "grow, h 50!";
+				String constraints = "grow, h 48!";
 				// Set the zero button to span two cells & other buttons one cell
 				if (buttonTexts[i][j].equals("0")) {
 					constraints = "span 2, " + constraints;
+				} else {
+					constraints = constraints + ", width 58!";
 				}
 				JButton btn = new JButton(buttonTexts[i][j]);
+				btn.setFont(fBtn);
 				buttonPanel.add(btn, constraints);
 
 				// Set background colors for top row & right column
 				if (i == 0 && j <= 2) {
 					btn.setBackground(Color.gray);
 					btn.setOpaque(true);
-				} 
-				if (j == 3) {
+				} else if (j == 3 || buttonTexts[i][j].equals("=")) {
 					btn.setBackground(Color.ORANGE);
+					btn.setOpaque(true);
+				} else {
+					btn.setBackground(Color.WHITE);
 					btn.setOpaque(true);
 				}
 
@@ -111,10 +116,10 @@ public class CalculatorView {
 	}
 
 	private void customizeTextDisplay() {
-		display = new JTextField("0", 9);
+		display = new JTextField("0");
 		display.setHorizontalAlignment(JTextField.RIGHT);
 		display.setFont(new Font("Arial", Font.PLAIN, 40));
-		display.setBorder(new EmptyBorder(30, 0, 0, 25));
+		display.setBorder(new EmptyBorder(30, 0, 3, 25));
 		display.setForeground(Color.WHITE);
 		display.setBackground(new Color(0, 0, 0, 100));
 	}
@@ -138,8 +143,12 @@ public class CalculatorView {
 	}
 
 	// Set text in the display
-	void setTextDisplay(String text) {
+	void setDisplayText(String text) {
 		display.setText(text);
+	}
+
+	String getDisplayText() {
+		return display.getText();
 	}
 	
 	// Open a popup that contains the error message passed

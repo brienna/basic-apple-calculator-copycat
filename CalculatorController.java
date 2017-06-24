@@ -28,15 +28,25 @@ public class CalculatorController {
 			System.out.println(e.getActionCommand());
 
 			int firstNumber, secondNumber = 0;
+			String input = e.getActionCommand();
 			
 			// Surround interactions with the view with 
 			// a try block in case numbers weren't properly entered
 			try {
-				/*firstNumber = theView.getFirstNumber();
-				secondNumber = theView.getSecondNumber();
-				theModel.addTwoNumbers(firstNumber, secondNumber);
-				theView.setDisplay(theModel.getCalculation());
-				*/
+				// If the button value is a digit, add to display
+				if (input != null && input.matches("[-+]?\\d*\\.?\\d+")) {
+					String text = theView.getDisplayText();
+					if (text.equals("0")) {
+						text = input;
+					} else {
+						text = text + input;
+					}
+					theView.setDisplayText(text);
+				}
+				// If the button value is C, clear
+				if (input.equals("C")) {
+					theView.setDisplayText("0");
+				}
 			} catch (NumberFormatException ex) {
 				System.out.println(ex);
 				theView.displayErrorMessage("You need to enter 2 integers");
