@@ -14,6 +14,7 @@ public class CalculatorController {
 	private CalculatorView theView;
 	private CalculatorModel theModel;
 	private ArrayList<String> operators;
+	private String lastInput;
 	
 	public CalculatorController(CalculatorView view, CalculatorModel model) {
 		theView = view;
@@ -34,7 +35,7 @@ public class CalculatorController {
 	// inner class
 	class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(e.getActionCommand());
+			System.out.println("just entered: " + e.getActionCommand());
 
 			// Get recent button input and current displayText
 			String input = e.getActionCommand();
@@ -49,14 +50,18 @@ public class CalculatorController {
 
 			// FOR BUTTONS WHOSE VALUES ARE NUMBERS OR PERIOD:
 			else if (input.matches("[\\d\\.]")) {
-				if (input.equals(".") && displayText.contains(".")) {
-					// If input is a period and  displayText already contains period,
-					// do nothing
-				} else if ((displayText.equals("0") && !input.equals(".")) || operators.contains(theModel.getMemory().get((theModel.getMemory().size() - 1)))) {
+				if ((displayText.equals("0") && !input.equals(".")) || operators.contains(lastInput)) {
 					// If displayText contains only a zero and input is not a period,
-					// or if the last input in the memory was an operation, 
-					// replace displayText with input
-					displayText = input;
+					// or if the last input was an operation, 
+					// replace displayText with input, taking into consideration if a leading zero needs to be added
+					if (input.equals(".")) {
+						displayText = "0" + input;
+					} else {
+						displayText = input;
+					}
+				} else if (input.equals(".") && displayText.contains(".")) {
+					// If input is a period and displayText already contains period,
+					// do nothing to prevent more periods in the display
 				} else {
 					// For everything else, 
 					// add input to end of  displayText
@@ -85,6 +90,8 @@ public class CalculatorController {
 				theModel.addToMemory(displayText);
 				theModel.addToMemory(input);
 			}
+
+			lastInput = input;
 		}
 	}
 }

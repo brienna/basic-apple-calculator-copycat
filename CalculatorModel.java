@@ -86,6 +86,5 @@ public class CalculatorModel {
 	// Reset memory
 	void resetMemory() {
 		memory.clear();
-		System.out.println("memory cleared");
 	}
 }
