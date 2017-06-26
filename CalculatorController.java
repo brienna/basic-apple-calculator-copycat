@@ -26,8 +26,8 @@ public class CalculatorController {
 			operators.add("x");
 			operators.add("-");
 		
-		// Tell the view that whenever a button is clicked,
-		// to execute the actionPerformed method in the EqualsListener inner class
+		// Add a listener to every button in the view, so that whenever a button is pressed,
+		// execute the actionPerformed method in the EqualsListener inner class 
 		theView.addButtonListener(new ButtonListener());
 	}
 	
@@ -36,12 +36,12 @@ public class CalculatorController {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(e.getActionCommand());
 
-			// Get recent button input and current display text
+			// Get recent button input and current displayText
 			String input = e.getActionCommand();
-			String text = theView.getDisplayText();
+			String displayText = theView.getDisplayText();
 
 			// FOR BUTTON WHOSE VALUE IS 'CLEAR':
-			// Reset display text and memory
+			// Reset displayText and memory
 			if (input.matches("C")) {
 				theView.setDisplayText("0");
 				theModel.resetMemory();
@@ -49,25 +49,26 @@ public class CalculatorController {
 
 			// FOR BUTTONS WHOSE VALUES ARE NUMBERS OR PERIOD:
 			else if (input.matches("[\\d\\.]")) {
-				if (input.equals(".") && text.contains(".")) {
-					// If input is a period and display text already contains period,
+				if (input.equals(".") && displayText.contains(".")) {
+					// If input is a period and  displayText already contains period,
 					// do nothing
-				} else if (text.equals("0") && !input.equals(".")) {
-					// If display text contains only a zero and input is not a period,
-					// replace display text with input
-					text = input;
+				} else if ((displayText.equals("0") && !input.equals(".")) || operators.contains(theModel.getMemory().get((theModel.getMemory().size() - 1)))) {
+					// If displayText contains only a zero and input is not a period,
+					// or if the last input in the memory was an operation, 
+					// replace displayText with input
+					displayText = input;
 				} else {
 					// For everything else, 
-					// add input to end of display text
-					text = text + input;
+					// add input to end of  displayText
+					displayText = displayText + input;
 				}
-				theView.setDisplayText(text);
+				theView.setDisplayText(displayText);
 			} 
 
 			// FOR BUTTON WHOSE VALUE IS 'EQUAL':
-			// Add display text to memory & calculate
+			// Add displayText to memory & calculate
 			else if (input.matches("=")) {
-				theModel.addToMemory(text);
+				theModel.addToMemory(displayText);
 				theModel.addToMemory(input);
 				System.out.println(theModel.getMemory());
 				// If memory contains 3 or more elements, calculate
@@ -79,12 +80,10 @@ public class CalculatorController {
 			}
 
 			// FOR BUTTONS WHOSE VALUES ARE OPERATIONS:
-			// Add display text to memory along with the operation, 
-			// and reset display text
+			// Add displayText to memory along with the operation
 			else if (operators.contains(input)) {
-				theModel.addToMemory(text);
+				theModel.addToMemory(displayText);
 				theModel.addToMemory(input);
-				theView.setDisplayText("0");
 			}
 		}
 	}
