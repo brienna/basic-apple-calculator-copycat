@@ -4,8 +4,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
 import java.awt.Component;
