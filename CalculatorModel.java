@@ -69,7 +69,7 @@ public class CalculatorModel {
 		if (answer == null) {
 			return "NaN";
 		} else {
-			return answer.toString();
+			return answer.stripTrailingZeros().toPlainString();
 		}
 	}
 
