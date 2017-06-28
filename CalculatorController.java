@@ -48,6 +48,16 @@ public class CalculatorController {
 				theModel.resetMemory();
 			}
 
+			// FOR BUTTON WHOSE VALUE IS '+/-':
+			else if (input.matches("\\+/-")) {
+				if (displayText.charAt(0) == '-') {
+					displayText = displayText.substring(1);
+				} else {
+					displayText = "-" + displayText;
+				}
+				theView.setDisplayText(displayText);
+			}
+
 			// FOR BUTTONS WHOSE VALUES ARE NUMBERS OR PERIOD:
 			else if (input.matches("[\\d\\.]")) {
 				System.out.println("button was a number or period");
@@ -63,6 +73,8 @@ public class CalculatorController {
 				} else if (input.equals(".") && displayText.contains(".")) {
 					// If input is a period and displayText already contains period,
 					// do nothing
+				} else if (displayText.equals("-0") && !input.equals(".")) {
+					displayText = "-" + input;
 				} else {
 					// For everything else,
 					// add input to end of  displayText
