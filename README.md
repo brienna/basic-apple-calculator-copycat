@@ -1,6 +1,6 @@
 # Basic Apple Calculator Copycat
 
-Rebuilds the basic view of the iOS 11 calculator, using Java. 
+Rebuilds the basic view of the iOS calculator, using Java. 
 
 ![demo](demo.gif)
 
